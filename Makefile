@@ -1,4 +1,5 @@
-AS     := i686-elf-as
+# AS     := i686-elf-as
+AS     := nasm 
 CC     := i686-elf-gcc
 LD     := i686-elf-gcc
 
@@ -25,7 +26,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	$(CC) -std=gnu99 -ffreestanding -O2 -Wall -Wextra -nostdlib -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
-	$(AS) $< -o $@
+	$(AS) -f elf $< -o $@
 
 kfs-1.iso: kfs-1.bin grub.cfg
 	rm -rf output
