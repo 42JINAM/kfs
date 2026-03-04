@@ -47,6 +47,10 @@ Files involved: `src/*.c`, `src/boot.s` -> `objs/*.o`
 ### Cross-compiler ?
 A cross-compiler is a compiler that runs on one platform (e.g., your PC) but generates machine code for a different target platform (e.g., the 32-bit x86 architecture).
 
+### What is `boot.s` ?
+TODO - explain why this file is necessary.
+
+https://wiki.osdev.org/Bare_Bones_with_NASM
 
 ## 2. Link
 Files involved: `linker.ld`, `objs/*.o` -> `kernel.bin`
@@ -71,6 +75,16 @@ Files involved: `grub.cfg`, `kernel.bin` -> `kfs-1.iso`
 
 2. Use `xorriso` to generate a bootable ISO (`kfs-1.iso`).
   - GRUB can find and load the kernel from the ISO.
+
+### ISO file system structure
+GRUB requires specific structure to create iso file.
+```
+iso/
+ └── boot/
+      ├── kernel.bin
+      └── grub/
+           └── grub.cfg
+```
 
 ## 4. Boot with [GRUB](https://wiki.osdev.org/GRUB#Using_GRUB_to_boot_your_OS)
 Files involved: `grub.cfg`, `kfs-1.iso`
