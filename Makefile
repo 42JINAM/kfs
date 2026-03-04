@@ -1,28 +1,52 @@
+# ==============================
+# Compiler & Tools
+# ==============================
+
 # AS     := i686-elf-as
-AS     := nasm 
-CC     := i686-elf-gcc
-LD     := i686-elf-gcc
+AS      := nasm
+CC      := i686-elf-gcc
+LD      := i686-elf-gcc
 
-OBJDIR := objs
-SRCDIR := src
+# ==============================
+# Directories
+# ==============================
 
+SRCDIR  := src
+OBJDIR  := objs
+OUTDIR  := output
 
-CFILES = strlen \
-				 kernel \
-				 terminal \
-				 vga
+# ==============================
+# Files
+# ==============================
 
-SFILES = boot
+NAME    := kfs-1
+KERNEL  := $(NAME).bin
+IMAGE   := $(NAME).iso
 
-C_OBJCS = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))
-S_OBJCS = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(SFILES)))
-OBJS = $(C_OBJCS) $(S_OBJCS)
+CFILES  := strlen kernel terminal vga
+SFILES  := boot
 
-all: kfs-1.iso
+C_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))
+S_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(SFILES)))
+OBJS    := $(C_OBJS) $(S_OBJS)
 
-kfs-1.bin: $(OBJS) linker.ld | $(OBJDIR)
-	$(LD) -nostdlib -ffreestanding -O2 \
-	      -T linker.ld -o $@ $(OBJS) -lgcc
+# ==============================
+# Colors
+# ==============================
+
+CGREEN  := \033[32m
+CYELLOW := \033[33m
+CEND    := \033[0m
+
+# ==============================
+# Default Target
+# ==============================
+
+all: $(IMAGE)
+
+# ==============================
+# Build Rules
+# ==============================
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	$(CC) -std=gnu99 -ffreestanding -O2 -Wall -Wextra -nostdlib -c $< -o $@
@@ -30,20 +54,37 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 $(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
 	$(AS) -f elf $< -o $@
 
-kfs-1.iso: kfs-1.bin grub.cfg
-	rm -rf output
-	mkdir output
-	docker compose up --build
-	cp output/kfs-1.iso .
+$(KERNEL): $(OBJS) linker.ld
+	$(LD) -nostdlib -ffreestanding -O2 -T linker.ld -o $@ $(OBJS) -lgcc
+	@echo "$(CGREEN)[✓] $(KERNEL) created$(CEND)"
 
-run: kfs-1.iso
-	qemu-system-i386 -cdrom kfs-1.iso 
+$(IMAGE): $(KERNEL) grub.cfg
+	@echo "$(CYELLOW)[*] Creating ISO image...$(CEND)"
+	rm -rf $(OUTDIR)
+	mkdir -p $(OUTDIR)
+	docker compose up --build
+	cp $(OUTDIR)/$(IMAGE) .
+	@echo "$(CGREEN)[✓] $(IMAGE) created$(CEND)"
+
+# ==============================
+# Convenience Targets
+# ==============================
+build: $(IMAGE)
+	@echo "$(CGREEN)[✓] Build finished$(CEND)"
+
+run: $(IMAGE)
+	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU...$(CEND)"
+	qemu-system-i386 -cdrom $(IMAGE)
 
 clean:
-	rm -rf $(OBJDIR) *.o kfs-1.bin *.iso output
+	rm -rf $(OBJDIR) $(OUTDIR) *.o *.bin *.iso
+	@echo "$(CGREEN)[✓] Cleaned all build artifacts$(CEND)"
 
+# ==============================
+# Utility
+# ==============================
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
+	@echo "$(CGREEN)[✓] $(OBJDIR) directory created$(CEND)"
 
-.PHONY: all run debug clean
-
+.PHONY: all build run clean
