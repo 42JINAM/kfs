@@ -69,7 +69,7 @@ Files involved: `grub.cfg`, `kernel.bin` -> `kfs-1.iso`
 
 1. Copy the kernel binary and GRUB configuration (grub.cfg) into an ISO file system structure.
 
-2. Use a tool like `xorriso` to generate a bootable ISO (`kfs-1.iso`).
+2. Use `xorriso` to generate a bootable ISO (`kfs-1.iso`).
   - GRUB can find and load the kernel from the ISO.
 
 ## 4. Boot with [GRUB](https://wiki.osdev.org/GRUB#Using_GRUB_to_boot_your_OS)
