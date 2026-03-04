@@ -10,9 +10,9 @@ mkdir -p /tmp/cross && cd /tmp/cross
 wget https://github.com/lordmilko/i686-elf-tools/releases/download/7.1.0/i686-elf-tools-linux.zip
 unzip -q i686-elf-tools-linux.zip
 
-echo 'export PATH="/tmp/cross/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-export PATH="/tmp/cross/bin:$PATH"
+echo 'export PATH="/tmp/cross/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+# export PATH="/tmp/cross/bin:$PATH"
 
 # verify if it's installed correctly
 if i686-elf-gcc --version >/dev/null 2>&1; then
