@@ -53,6 +53,13 @@ void	terminal_putchar(char c)
 	}
 }
 
+void terminal_put_newline()
+{
+  g_vga.col = g_vga.col++;
+  g_vga.row = 0;
+	terminal_putentryat('\n', g_vga.color, g_vga.col, g_vga.row);
+}
+
 void	terminal_write(const char *data, size_t size)
 {
 	size_t	i;
@@ -63,9 +70,10 @@ void	terminal_write(const char *data, size_t size)
 		terminal_putchar(data[i]);
 		i ++;
 	}
+  terminal_put_newline();
 }
 
-void	terminal_writestring(const char *data)
+void	terminal_write_line(const char *data)
 {
 	terminal_write(data, strlen(data));
 }
