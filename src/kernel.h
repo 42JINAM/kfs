@@ -16,5 +16,6 @@
 //
 //
 /* 함수 선언 */
+void update_cursor(int x, int y);
 
 #endif /* KERNEL_H */

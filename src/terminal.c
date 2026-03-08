@@ -1,4 +1,4 @@
-#include "terminal.h"
+#include "kernel.h"
 
 // terminal state variable
 t_terminal_state	g_vga;
@@ -44,20 +44,24 @@ void	terminal_setcolor(uint8_t color)
 
 void	terminal_putchar(char c)
 {
-	terminal_putentryat(c, g_vga.color, g_vga.col, g_vga.row);
-	if (++g_vga.col == VGA_WIDTH)
-	{
+	if (c == '\n') {
 		g_vga.col = 0;
-		if (++g_vga.row == VGA_HEIGHT)
-			g_vga.row = 0;
+		if (++g_vga.row == VGA_HEIGHT) {
+			// scroll down
+			return ;
+		}
+	} 
+	else {
+		terminal_putentryat(c, g_vga.color, g_vga.col, g_vga.row);
+		if (++g_vga.col == VGA_WIDTH)
+		{
+			g_vga.col = 0;
+			if (++g_vga.row == VGA_HEIGHT) {
+				// scroll down
+				g_vga.row = 0;
+			}
+		}
 	}
-}
-
-void terminal_put_newline()
-{
-  g_vga.col = g_vga.col++;
-  g_vga.row = 0;
-	terminal_putentryat('\n', g_vga.color, g_vga.col, g_vga.row);
 }
 
 void	terminal_write(const char *data, size_t size)
@@ -70,10 +74,10 @@ void	terminal_write(const char *data, size_t size)
 		terminal_putchar(data[i]);
 		i ++;
 	}
-  terminal_put_newline();
 }
 
 void	terminal_write_line(const char *data)
 {
 	terminal_write(data, strlen(data));
+	update_cursor(g_vga.col, g_vga.row);
 }

@@ -23,7 +23,7 @@ NAME    := kfs-1
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := strlen kernel terminal vga
+CFILES  := strlen kernel terminal vga IO_handle
 SFILES  := boot
 
 C_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))

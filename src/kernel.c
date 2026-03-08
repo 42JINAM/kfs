@@ -18,6 +18,6 @@
 void	kernel_main(void)
 {
 	terminal_initialize();
-	terminal_write_line("42 hello");
-	terminal_write_line("42 bye");
+	terminal_write_line("42 hello\n");
+	terminal_write_line("42 bye\n");
 }
