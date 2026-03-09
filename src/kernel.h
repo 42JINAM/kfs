@@ -1,6 +1,8 @@
 #ifndef KERNEL_H
 # define KERNEL_H 
 # include "terminal.h"
+# include "keyboard.h"
+
 //
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 // # if defined(__linux__)
@@ -14,7 +16,7 @@
 
 // typedef unsigned char		uint8_t;
 // typedef unsigned short int	uint16_t;
-// typedef unsigned int		uint32_t;
+// typedef unsigned int		    uint32_t;
 // typedef unsigned long		size_t;
 
 // https://wiki.osdev.org/Inline_Assembly/Examples#OUTx
@@ -38,5 +40,6 @@ static inline uint8_t inb(uint16_t port)
 }
 
 void update_cursor(int x, int y);
+void keyboard_handler();
 
 #endif /* KERNEL_H */

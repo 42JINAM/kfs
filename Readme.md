@@ -103,3 +103,7 @@ Files involved: `grub.cfg`, `kfs-1.iso`
 
 ## Useful link
 [I/O handling](https://wiki.osdev.org/Inline_Assembly/Examples)
+
+### keyboard input
+[Receiving Bytes From Device/s](https://wiki.osdev.org/index.php?title=I8042_PS/2_Controller)
+https://osdev.jsren.co.uk/input-output/keyboard

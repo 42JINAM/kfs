@@ -46,10 +46,12 @@ void		terminal_initialize(void);
 void		terminal_setcolor(uint8_t color);
 void		terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
 void		terminal_putchar(char c);
-void		terminal_write(const char *data, size_t size);
+
+void		terminal_write_char(char c);
 void		terminal_write_line(const char *data);
 
 uint8_t		vga_entry_color(enum e_vga_color fg, enum e_vga_color bg);
 uint16_t	vga_entry(unsigned char uc, uint8_t color);
+
 extern t_terminal_state	g_vga;
 #endif // !TERMINAL_H

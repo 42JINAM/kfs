@@ -64,20 +64,21 @@ void	terminal_putchar(char c)
 	}
 }
 
-void	terminal_write(const char *data, size_t size)
+void	terminal_write_char(char c)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < size)
-	{
-		terminal_putchar(data[i]);
-		i ++;
-	}
+	terminal_putchar(c);
+	update_cursor(g_vga.col, g_vga.row);
 }
 
 void	terminal_write_line(const char *data)
 {
-	terminal_write(data, strlen(data));
+	size_t	i;
+
+	i = 0;
+	while (i < strlen(data))
+	{
+		terminal_putchar(data[i]);
+		i ++;
+	}
 	update_cursor(g_vga.col, g_vga.row);
 }
