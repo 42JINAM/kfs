@@ -100,3 +100,10 @@ Files involved: `grub.cfg`, `kfs-1.iso`
 4. The CPU jumps to the kernel entry point (kernel_main).
 
 5. The kernel takes control, initializes the terminal, VGA, and other basic systems.
+
+## Useful link
+[I/O handling](https://wiki.osdev.org/Inline_Assembly/Examples)
+
+### keyboard input
+[Receiving Bytes From Device/s](https://wiki.osdev.org/index.php?title=I8042_PS/2_Controller)
+https://osdev.jsren.co.uk/input-output/keyboard

@@ -18,5 +18,8 @@
 void	kernel_main(void)
 {
 	terminal_initialize();
-	terminal_writestring("42 hello");
+	terminal_write_line("42 hello\n");
+	terminal_write_line("42 bye\n");
+	
+	keyboard_handler();
 }
