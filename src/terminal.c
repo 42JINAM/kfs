@@ -42,12 +42,29 @@ void	terminal_setcolor(uint8_t color)
 	g_vga.color = color;
 }
 
+void	scroll_down() {
+	int idx;
+
+	for (int y = 0; y < VGA_HEIGHT - 1; y++) {
+		for (int x = 0; x < VGA_WIDTH; x++) {
+			idx = y * VGA_WIDTH + x;
+			g_vga.buffer[idx] = g_vga.buffer[idx + VGA_WIDTH];
+		}
+	}
+	for (int x = 0; x < VGA_WIDTH; x++) {
+		idx = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
+		g_vga.buffer[idx] = g_vga.buffer[idx + VGA_WIDTH];
+	}
+	update_cursor(g_vga.col, g_vga.row);
+}
+
 void	terminal_putchar(char c)
 {
 	if (c == '\n') {
 		g_vga.col = 0;
 		if (++g_vga.row == VGA_HEIGHT) {
-			// scroll down
+			g_vga.row = VGA_HEIGHT - 1;
+			scroll_down();
 			return ;
 		}
 	} 
@@ -57,8 +74,8 @@ void	terminal_putchar(char c)
 		{
 			g_vga.col = 0;
 			if (++g_vga.row == VGA_HEIGHT) {
-				// scroll down
-				g_vga.row = 0;
+				g_vga.row = VGA_HEIGHT - 1;
+				scroll_down();
 			}
 		}
 	}
