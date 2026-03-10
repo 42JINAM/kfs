@@ -106,4 +106,5 @@ Files involved: `grub.cfg`, `kfs-1.iso`
 
 ### keyboard input
 [Receiving Bytes From Device/s](https://wiki.osdev.org/index.php?title=I8042_PS/2_Controller)
+
 https://osdev.jsren.co.uk/input-output/keyboard
