@@ -1,67 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ascii.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dham <dham@student.42seoul.kr>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/19 20:27:53 by dham              #+#    #+#             */
-/*   Updated: 2023/01/20 17:03:22 by dham             ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "ascii_art.h"
+#include "ascii.h"
+#include "../kernel.h"
 
 void	logo(void)
 {
-	printf("\n");
-	printf("\033[5;32m");
-	printf("███╗   ███╗██╗███╗   ██╗██╗    ");
-	printf("███████╗██╗  ██╗███████╗██╗     ██╗     \n");
-	printf("████╗ ████║██║████╗  ██║██║    ");
-	printf("██╔════╝██║  ██║██╔════╝██║     ██║     \n");
-	printf("██╔████╔██║██║██╔██╗ ██║██║    ");
-	printf("███████╗███████║█████╗  ██║     ██║     \n");
-	printf("██║╚██╔╝██║██║██║╚██╗██║██║    ");
-	printf("╚════██║██╔══██║██╔══╝  ██║     ██║     \n");
-	printf("██║ ╚═╝ ██║██║██║ ╚████║██║    ");
-	printf("███████║██║  ██║███████╗███████╗███████╗\n");
-	printf("╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝    ");
-	printf("╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝\n");
-	printf("\033[m");
+	printf(" 42 42 42");
 	printf("\n");
 }
 
-void	erase_ascii(int sig)
+void	erase_ascii(void)
 {
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	printf("                                                         \n");
-	ft_putstr_fd("\033[23A", 1);
-	exit(sig + 128);
+	set_background(g_vga.vga_buffer, vga_entry(' ', g_vga.active->color));
+	g_vga.active->col = 0;
+	g_vga.active->row = 0;
+	update_cursor(g_vga.active->col, g_vga.active->row);
 }
 
-void	output_ascii(void)
+static void	busy_wait(unsigned int count)
+{
+	volatile unsigned int	delay;
+
+	delay = 0;
+	while (delay < count)
+		delay++;
+}
+
+void	print_ascii(void)
 {
 	const t_ascii_func	draw[25] = {\
 		ascii_1, ascii_2, ascii_3, ascii_4, ascii_5, ascii_6, ascii_7, \
@@ -70,30 +33,15 @@ void	output_ascii(void)
 		ascii_22, ascii_23, ascii_24, ascii_25
 	};
 	int					i;
-	int					delay;
 
+	set_terminal(&g_vga.t1, vga_entry_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
+	flush_terminal(&g_vga.t1);
 	i = 0;
-	signal(SIGINT, erase_ascii);
-	signal(SIGQUIT, erase_ascii);
-	printf("\033[32m");
 	while (i < 25)
 	{
+		erase_ascii();
 		draw[i]();
-		if (i != 24)
-			ft_putstr_fd("\033[23A", 1);
-		delay = 0;
-		while (delay < 50000000)
-			delay++;
+		busy_wait(80000000);
 		i++;
 	}
-	printf("\033[m");
-	logo();
-}
-
-void	prompt_color(int ret_code)
-{
-	if (ret_code == 0)
-		printf("\033[1;32m");
-	else
-		printf("\033[1;31m");
 }

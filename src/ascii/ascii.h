@@ -13,12 +13,11 @@
 #ifndef ASCII_ART_H
 # define ASCII_ART_H
 
-# include <stdio.h>
-
 typedef void	(*t_ascii_func)(void);
 
-void	output_ascii(void);
-void	prompt_color(int ret_code);
+void	print_ascii(void);
+void    logo(void);
+//void	prompt_color(int ret_code);
 
 void	ascii_1(void);
 void	ascii_2(void);

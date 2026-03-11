@@ -1,4 +1,4 @@
-#include "kernel.h"
+#include "kernel.h" 
 
 // terminal state variable
 t_terminal_state	g_vga;
@@ -23,21 +23,18 @@ void	set_background(uint16_t* buffer, uint16_t entry) {
 		}
 	}
 }
+void	set_terminal(t_terminal *t, uint16_t color)
+{
+	t->col = 0;
+	t->row = 0;
+	t->color = color;
+	set_background(t->buffer, vga_entry(' ', color));
+}
 
 void	terminal_initialize(void)
 {
-	g_vga.vga_buffer = (uint16_t *)VGA_MEMORY;
-	g_vga.t1.col = 0;
-	g_vga.t1.row = 0;
-	g_vga.t1.color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLUE);
-
-	g_vga.t2.col = 0;
-	g_vga.t2.row = 0;
-	g_vga.t2.color = vga_entry_color(VGA_COLOR_LIGHT_RED, VGA_COLOR_RED);
-	
-	set_background(g_vga.t1.buffer, vga_entry(' ', g_vga.t1.color));
-	set_background(g_vga.t2.buffer, vga_entry(' ', g_vga.t2.color));
-	
+	set_terminal(&g_vga.t1, vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK));
+	set_terminal(&g_vga.t2, vga_entry_color(VGA_COLOR_LIGHT_RED, VGA_COLOR_RED));
 	flush_terminal(&g_vga.t1);
 	g_vga.t1_switch = true;
 }
