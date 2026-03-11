@@ -3,6 +3,7 @@
 
 // Special keys
 #define KEY_ESC        	0x01
+#define KEY_BACK        0x0E
 #define KEY_LCTRL      	0x1D
 #define KEY_LSHIFT     	0x2A
 #define KEY_RSHIFT     	0x36
