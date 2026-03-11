@@ -60,7 +60,7 @@ void keyboard_handler()
                     flush_terminal(&g_vga.t1);
                 }
 
-            } else if (scancode == KEY_F2 && g_vga.t1_switch)
+            } else if (scancode == KEY_F2)
             {
                 if (g_vga.t1_switch)
                 {
