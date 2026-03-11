@@ -1,5 +1,17 @@
 #include "kernel.h"
 
+unsigned char blocked[128] = {
+    [KEY_ESC] = 1, [KEY_LCTRL] = 1, [KEY_LSHIFT] = 1, [KEY_RSHIFT] = 1,
+    [KEY_LALT] = 1, [KEY_CAPSLOCK] = 1, [KEY_NUMLOCK] = 1, [KEY_SCROLLLOCK] = 1,
+    [KEY_F1] = 0, [KEY_F2] = 0, [KEY_F3] = 1, [KEY_F4] = 1,
+    [KEY_F5] = 1, [KEY_F6] = 1, [KEY_F7] = 1, [KEY_F8] = 1,
+    [KEY_F9] = 1, [KEY_F10] = 1, [KEY_F11] = 1, [KEY_F12] = 1,
+    [KEY_KP_0] = 1, [KEY_KP_1] = 1, [KEY_KP_2] = 1, [KEY_KP_3] = 1,
+    [KEY_KP_4] = 1, [KEY_KP_5] = 1, [KEY_KP_6] = 1, [KEY_KP_7] = 1,
+    [KEY_KP_8] = 1, [KEY_KP_9] = 1, [KEY_KP_PLUS] = 1, [KEY_KP_MINUS] = 1,
+    [KEY_KP_MUL] = 1, [KEY_KP_DOT] = 1,
+};
+
 unsigned char scancode_set[128] = {
     [0x01] = KEY_ESC,       [0x02] = '1',           [0x03] = '2',           [0x04] = '3',
     [0x05] = '4',           [0x06] = '5',           [0x07] = '6',           [0x08] = '7',
@@ -32,27 +44,35 @@ uint8_t	read_keyboard(void) {
 
 void keyboard_handler()
 {
-
 	while (1) {
         uint8_t scancode = read_keyboard();
+
         if (scancode & 0x80) {
             // release
         } else {
             // pressed
-            if (scancode == KEY_F1 && !g_vga.t1_switch)
+            if (scancode == KEY_F1)
             {
-                g_vga.t1_switch = true;
-                backup_terminal(&g_vga.t2);
-                flush_terminal(&g_vga.t1);
+                if (!g_vga.t1_switch)
+                {
+                    g_vga.t1_switch = true;
+                    backup_terminal(&g_vga.t2);
+                    flush_terminal(&g_vga.t1);
+                }
+
             } else if (scancode == KEY_F2 && g_vga.t1_switch)
             {
-                g_vga.t1_switch = false;
-                backup_terminal(&g_vga.t1);
-                flush_terminal(&g_vga.t2);
+                if (g_vga.t1_switch)
+                {
+                    g_vga.t1_switch = false;
+                    backup_terminal(&g_vga.t1);
+                    flush_terminal(&g_vga.t2);
+                }
             }
             else
             {
                 unsigned char key = scancode_set[scancode];
+                if (blocked[scancode]) continue;
                 terminal_write_char(key);
             }
         }
