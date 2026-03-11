@@ -33,6 +33,26 @@ int	ft_format(const char **format, va_list ap)
 		return (-1);
 }
 
+int printf_internal(const char *format, va_list ap)
+{
+    int len = 0;
+    int tmp;
+
+    while (*format)
+    {
+        if (*format == '%')
+            tmp = ft_format(&format, ap);
+        else
+        {
+            terminal_write_char(*format);
+            tmp = 1;
+        }
+        len += tmp;
+        format++;
+    }
+    return len;
+}
+
 int	printf(const char *format, ...)
 {
 	va_list	ap;
@@ -40,19 +60,7 @@ int	printf(const char *format, ...)
 	int		tmp;
 
 	va_start (ap, format);
-	len = 0;
-	while (*format)
-	{
-		if (*format == '%') {
-			tmp = ft_format(&format, ap);
-    }
-		else {
-			terminal_write_char(*format);
-			tmp = 1;
-		}
-		len += tmp;
-		format++;
-	}
+	len = printf_internal(format, ap);
 	va_end(ap);
 	return (len);
 }

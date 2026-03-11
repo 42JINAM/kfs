@@ -43,8 +43,10 @@ static inline uint8_t inb(uint16_t port)
     return ret;
 }
 
-// printf
+// printf, printk
+int	printk(const char *format, ...);
 int	printf(const char *format, ...);
+int printf_internal(const char *format, va_list ap);
 int	ft_printf_c(va_list ap);
 int	ft_printf_s(va_list ap);
 int	ft_printf_p(va_list ap);
