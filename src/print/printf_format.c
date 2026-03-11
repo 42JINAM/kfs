@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_format_2.c                                      :+:      :+:    :+:   */
+/*   ft_format_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoonsele <yoonsele@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 10:36:26 by yoonsele          #+#    #+#             */
-/*   Updated: 2022/12/04 17:25:44 by yoonsele         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:57:11 by yoonsele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,30 @@ int	ft_write_hex(unsigned long long nb, char *base)
 	terminal_write_char(base[nb % 16]);
 	cnt += 1;
 	return (cnt);
+}
+
+int	ft_printf_c(va_list ap)
+{
+	char	c;
+
+	c = (char)va_arg(ap, int);
+	terminal_write_char(c);
+	return (1);
+}
+
+int	ft_printf_s(va_list ap)
+{
+	char	*s;
+
+	s = va_arg(ap, char *);
+	if (!s) {
+		terminal_write_line("(null)");
+		return (6);
+	}
+	else {
+		terminal_write_line(s);
+		return (strlen(s));
+	}
 }
 
 int	ft_printf_p(va_list ap)

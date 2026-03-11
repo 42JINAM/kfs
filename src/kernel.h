@@ -45,11 +45,8 @@ static inline uint8_t inb(uint16_t port)
 
 // printf
 int	printf(const char *format, ...);
-
 int	ft_printf_c(va_list ap);
 int	ft_printf_s(va_list ap);
-// int	ft_printf_di(va_list ap);
-// int	ft_printf_u(va_list ap);
 int	ft_printf_p(va_list ap);
 int	ft_printf_x(va_list ap);
 int	ft_printf_xx(va_list ap);

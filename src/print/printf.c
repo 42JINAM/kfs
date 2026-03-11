@@ -19,10 +19,6 @@ int	ft_format(const char **format, va_list ap)
 		return (ft_printf_c(ap));
 	else if (**format == 's')
 		return (ft_printf_s(ap));
-	// else if (**format == 'd' || **format == 'i')
-	// 	return (ft_printf_di(ap));
-	// else if (**format == 'u')
-	// 	return (ft_printf_u(ap));
 	else if (**format == 'p')
 		return (ft_printf_p(ap));
 	else if (**format == 'x')
