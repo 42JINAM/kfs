@@ -71,8 +71,8 @@ void keyboard_handler()
             }
             else
             {
-                unsigned char key = scancode_set[scancode];
                 if (blocked[scancode]) continue;
+                unsigned char key = scancode_set[scancode];
                 terminal_write_char(key);
             }
         }
