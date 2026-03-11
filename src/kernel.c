@@ -46,13 +46,11 @@ void test_printf(void) {
 
 void	kernel_main(void)
 {
-
-
 	terminal_initialize();
+
 	terminal_write_line("42 hello\n");
-	terminal_write_line("42 bye\n");
-	test_printf();
+	
+	// test_printf();
 
 	keyboard_handler();
-
 }
