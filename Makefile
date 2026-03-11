@@ -24,7 +24,7 @@ KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
 CFILES  := strlen kernel terminal vga IO_handle keyboard \
-		   printf/ft_printf printf/ft_format_1 printf/ft_format_2 printf/ft_utils 
+		   print/ft_printf print/ft_format_1 print/ft_format_2 print/ft_utils 
 SFILES  := boot
 
 C_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))
@@ -91,7 +91,7 @@ re:		clean build
 # ==============================
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
-	mkdir -p $(OBJDIR)/printf
+	mkdir -p $(OBJDIR)/print
 	@echo "$(CGREEN)[✓] $(OBJDIR) directory created$(CEND)"
 
 .PHONY: all build run clean
