@@ -51,6 +51,7 @@ typedef struct s_terminal_state
 }	t_terminal_state;
 
 
+void		set_terminal(t_terminal *t, uint16_t color);
 void		set_background(uint16_t* buffer, uint16_t entry);
 void		terminal_initialize(void);
 void		terminal_setcolor(uint8_t color);
