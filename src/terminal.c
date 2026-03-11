@@ -13,31 +13,33 @@ t_terminal_state	g_vga;
 // set up default color(fg, bg)
 // fill the screen
 
+void	set_background(uint16_t* buffer, uint16_t entry) {
+	int idx;
+
+	for (int y = 0; y < VGA_HEIGHT; y++) {
+		for (int x = 0; x < VGA_WIDTH; x++) {
+			idx = y * VGA_WIDTH + x;
+			buffer[idx] = entry;
+		}
+	}
+}
+
 void	terminal_initialize(void)
 {
-	int	x;
-	int	y;
-	int	idx;
-
 	g_vga.vga_buffer = (uint16_t *)VGA_MEMORY;
-	g_vga.active = &g_vga.t1;
+	g_vga.t1.col = 0;
+	g_vga.t1.row = 0;
+	g_vga.t1.color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLUE);
+
+	g_vga.t2.col = 0;
+	g_vga.t2.row = 0;
+	g_vga.t2.color = vga_entry_color(VGA_COLOR_LIGHT_RED, VGA_COLOR_RED);
+	
+	set_background(&g_vga.t1.buffer, vga_entry(' ', g_vga.t1.color));
+	set_background(&g_vga.t2.buffer, vga_entry(' ', g_vga.t2.color));
+	
+	flush_terminal(&g_vga.t1);
 	g_vga.t1_switch = true;
-	g_vga.active->row = 0;
-	g_vga.active->col = 0;
-	g_vga.active->color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
-	g_vga.t2.color = vga_entry_color(VGA_COLOR_GREEN, VGA_COLOR_BLACK);
-	y = 0;
-	while (y < VGA_HEIGHT)
-	{
-		x = 0;
-		while (x < VGA_WIDTH)
-		{
-			idx = y * VGA_WIDTH + x;
-			g_vga.vga_buffer[idx] = vga_entry(' ', g_vga.active->color);
-			x ++;
-		}
-		y ++;
-	}
 }
 
 void	terminal_setcolor(uint8_t color)
