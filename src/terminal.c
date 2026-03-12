@@ -1,17 +1,6 @@
 #include "kernel.h" 
 
-// terminal state variable
 t_terminal_state	g_vga;
-/*
- * Global terminal state -
- * every function needs to know :
- * - Where to print
- * - What color to use 
- *   하지만 매개변수로 전달도 가능하긴 해 ...
-*/
-// Reset cursor to (0, 0)
-// set up default color(fg, bg)
-// fill the screen
 
 void	set_background(uint16_t* buffer, uint16_t entry) {
 	int idx;
@@ -47,6 +36,9 @@ void	terminal_setcolor(uint8_t color)
 void	scroll_down() {
 	int idx;
 
+		terminal_putentryat('0', g_vga.active->color, g_vga.active->col, g_vga.active->row);
+  
+
 	for (int y = 0; y < VGA_HEIGHT - 1; y++) {
 		for (int x = 0; x < VGA_WIDTH; x++) {
 			idx = y * VGA_WIDTH + x;
@@ -57,6 +49,7 @@ void	scroll_down() {
 		idx = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
 		g_vga.active->buffer[idx] = g_vga.active->buffer[idx + VGA_WIDTH];
 	}
+  flush_terminal(g_vga.active);
 	update_cursor(g_vga.active->col, g_vga.active->row);
 }
 
