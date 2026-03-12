@@ -47,15 +47,16 @@ Files involved: `src/*.c`, `src/boot.s` -> `objs/*.o`
 ### Cross-compiler ?
 A cross-compiler is a compiler that runs on one platform (e.g., your PC) but generates machine code for a different target platform (e.g., the 32-bit x86 architecture).
 
-### What is `boot.s` ?
-TODO - explain why this file is necessary.
+### What does `boot.s` do?
+- Declare constants for the multiboot header
+- Define the multiboot header
+- Allocate stack memory for the kernel
+- Call the C kernel entry point
 
-https://wiki.osdev.org/Bare_Bones_with_NASM
+Learn more about [Bootstrap Assembly](https://wiki.osdev.org/Bare_Bones_with_NASM)
 
 ## 2. Link
 Files involved: `linker.ld`, `objs/*.o` -> `kernel.bin`
-
-
 
 1. All object files are linked together into a single executable kernel binary (`kernel.bin`).
 
@@ -63,7 +64,9 @@ Files involved: `linker.ld`, `objs/*.o` -> `kernel.bin`
 
 ### Why is custom linker needed?
 
-The kernel runs **without an operating system**, so the CPU needs exact memory addresses for code and data. And `linker.ld` specifies this memory layout.
+The kernel runs **without an operating system**, so the CPU needs exact memory addresses for code and data. 
+
+And `linker.ld` specifies this memory layout.
 
 Learn more about [linker script](https://wiki.osdev.org/Linker_Scripts)
 
@@ -71,7 +74,7 @@ Learn more about [linker script](https://wiki.osdev.org/Linker_Scripts)
 ## 3. Create ISO
 Files involved: `grub.cfg`, `kernel.bin` -> `kfs-1.iso`
 
-1. Copy the kernel binary and GRUB configuration (grub.cfg) into an ISO file system structure.
+1. Copy the kernel binary and GRUB configuration (`grub.cfg`) into an ISO file system structure.
 
 2. Use `xorriso` to generate a bootable ISO (`kfs-1.iso`).
   - GRUB can find and load the kernel from the ISO.
@@ -107,4 +110,4 @@ Files involved: `grub.cfg`, `kfs-1.iso`
 ### keyboard input
 [Receiving Bytes From Device/s](https://wiki.osdev.org/index.php?title=I8042_PS/2_Controller)
 
-https://osdev.jsren.co.uk/input-output/keyboard
+[Keyboard](https://osdev.jsren.co.uk/input-output/keyboard)
