@@ -25,7 +25,13 @@ IMAGE   := $(NAME).iso
 
 CFILES  := strlen kernel terminal vga IO_handle keyboard memcpy memset \
 		   print/printf \
-		   print/printf_format 
+		   print/printf_format \
+		   ascii/ascii_1_bonus \
+		   ascii/ascii_2_bonus \
+		   ascii/ascii_3_bonus \
+		   ascii/ascii_4_bonus \
+		   ascii/ascii_5_bonus \
+		   ascii/ascii_bonus
 SFILES  := boot
 
 C_OBJS  := $(addprefix $(OBJDIR)/, $(addsuffix .o, $(CFILES)))
@@ -93,6 +99,7 @@ re:		clean build
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 	mkdir -p $(OBJDIR)/print
+	mkdir -p $(OBJDIR)/ascii
 	@echo "$(CGREEN)[✓] $(OBJDIR) directory created$(CEND)"
 
 .PHONY: all build run clean

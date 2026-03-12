@@ -2,6 +2,7 @@
 # define KERNEL_H 
 # include "terminal.h"
 # include "keyboard.h"
+# include "ascii/ascii.h"
 
 # include <limits.h>
 # include <stdbool.h>
@@ -62,4 +63,5 @@ void keyboard_handler();
 void*   memset(void* bufptr, int value, size_t size);
 void*   memcpy(void	*restrict dstptr, const void	*restrict srcptr, size_t size);
 
+extern t_terminal_state	g_vga;
 #endif /* KERNEL_H */

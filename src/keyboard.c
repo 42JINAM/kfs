@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "terminal.h"
 
 unsigned char blocked[128] = {
     [KEY_ESC] = 1, [KEY_LCTRL] = 1, [KEY_LSHIFT] = 1, [KEY_RSHIFT] = 1,
@@ -51,7 +52,31 @@ void keyboard_handler()
             // release
         } else {
             // pressed
-            if (scancode == KEY_F1)
+            if (scancode == KEY_BACK)
+            {
+            	if (g_vga.active->col > 0)
+            	{
+            		g_vga.active->col--;
+            	} else if (g_vga.active->row > 0)
+            	{
+            		g_vga.active->row--;
+            		for  (int x = VGA_WIDTH - 1; x >= 0; x --)
+            		{
+            			int idx = g_vga.active->row * VGA_WIDTH + x;
+						char ch = g_vga.vga_buffer[idx] & 0xFF;
+						if (ch != ' ' && ch != 0)
+						{
+							g_vga.active->col = x;
+							break;
+						}
+						if (x == 0)
+							g_vga.active->col = 0;
+            		}
+            	}
+            	terminal_putentryat(' ', g_vga.active->color, g_vga.active->col, g_vga.active->row);
+            	update_cursor(g_vga.active->col, g_vga.active->row);
+            }
+            else if (scancode == KEY_F1)
             {
                 if (!g_vga.t1_switch)
                 {
