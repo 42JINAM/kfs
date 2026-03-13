@@ -67,6 +67,7 @@ uint8_t		vga_entry_color(enum e_vga_color fg, enum e_vga_color bg);
 uint16_t	vga_entry(unsigned char uc, uint8_t color);
 
 // terminal.c
+void		terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
 void		update_cursor(int x, int y);
 void		terminal_write_char(char c);
 void		terminal_write_line(const char *data);

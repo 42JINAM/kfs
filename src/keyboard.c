@@ -43,6 +43,38 @@ uint8_t	read_keyboard(void) {
     return inb(0x60);           // read scancode
 }
 
+void backspace()
+{
+    if (g_vga.active->col > 0)
+    {
+        g_vga.active->col--;
+    } else if (g_vga.active->row > 0)
+    {
+        g_vga.active->row--;
+        for  (int x = VGA_WIDTH - 1; x >= 0; x --)
+        {
+            int idx = g_vga.active->row * VGA_WIDTH + x;
+            char ch = g_vga.vga_buffer[idx] & 0xFF;
+            if (ch != ' ' && ch != 0)
+            {
+                g_vga.active->col = x;
+                break;
+            }
+            if (x == 0)
+                g_vga.active->col = 0;
+        }
+    }
+    terminal_putentryat(' ', g_vga.active->color, g_vga.active->col, g_vga.active->row);
+    update_cursor(g_vga.active->col, g_vga.active->row);
+}
+
+void switch_tab(enum e_current_tab current, t_tab* from, t_tab* to)
+{
+    g_vga.current_tab = current;
+    backup_terminal(from);
+    flush_terminal(to);
+}
+
 void keyboard_handler()
 {
 	while (1) {
@@ -53,45 +85,14 @@ void keyboard_handler()
         } else {
             // pressed
             if (scancode == KEY_BACK)
-            {
-            	if (g_vga.active->col > 0)
-            	{
-            		g_vga.active->col--;
-            	} else if (g_vga.active->row > 0)
-            	{
-            		g_vga.active->row--;
-            		for  (int x = VGA_WIDTH - 1; x >= 0; x --)
-            		{
-            			int idx = g_vga.active->row * VGA_WIDTH + x;
-						char ch = g_vga.vga_buffer[idx] & 0xFF;
-						if (ch != ' ' && ch != 0)
-						{
-							g_vga.active->col = x;
-							break;
-						}
-						if (x == 0)
-							g_vga.active->col = 0;
-            		}
-            	}
-            	terminal_write_char(' ');
-            }
-            else if (scancode == KEY_F1)
-            {
+                backspace();
+            else if (scancode == KEY_F1) {
                 if (g_vga.current_tab == TAB_2)
-                {
-                    g_vga.current_tab = TAB_1;
-                    backup_terminal(&g_vga.t2);
-                    flush_terminal(&g_vga.t1);
-                }
-
-            } else if (scancode == KEY_F2)
-            {
+                    switch_tab(TAB_1, &g_vga.t2, &g_vga.t1);
+            }
+            else if (scancode == KEY_F2) {
                 if (g_vga.current_tab == TAB_1)
-                {
-                    g_vga.current_tab = TAB_2;
-                    backup_terminal(&g_vga.t1);
-                    flush_terminal(&g_vga.t2);
-                }
+                    switch_tab(TAB_2, &g_vga.t1, &g_vga.t2);
             }
             else
             {
