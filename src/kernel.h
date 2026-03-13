@@ -3,12 +3,12 @@
 # include "terminal.h"
 # include "keyboard.h"
 # include "ascii/ascii.h"
+# include "utils/printf.h"
 
 # include <limits.h>
 # include <stdbool.h>
 # include <stdarg.h>
 # include <stdint.h>
-# include <stddef.h>
 
 //
 /* Check if the compiler thinks you are targeting the wrong operating system. */
@@ -45,17 +45,6 @@ static inline uint8_t inb(uint16_t port)
                    : "memory");
     return ret;
 }
-
-// printf, printk
-int	printk(const char *format, ...);
-int	printf(const char *format, ...);
-int printf_internal(const char *format, va_list ap);
-int	ft_printf_c(va_list ap);
-int	ft_printf_s(va_list ap);
-int	ft_printf_p(va_list ap);
-int	ft_printf_x(va_list ap);
-int	ft_printf_xx(va_list ap);
-
 
 void update_cursor(int x, int y);
 void keyboard_handler();
