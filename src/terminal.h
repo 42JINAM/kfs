@@ -53,7 +53,6 @@ typedef struct s_terminal_state
 void		set_terminal(t_terminal *t, uint16_t color);
 void		set_background(uint16_t* buffer, uint16_t entry);
 void		terminal_initialize(void);
-void		terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
 
 void		terminal_write_char(char c);
 void		terminal_write_line(const char *data);

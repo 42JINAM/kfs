@@ -15,10 +15,4 @@ uint16_t	vga_entry(unsigned char uc, uint8_t color)
 	return ((uint16_t) uc | (uint16_t) color << 8);
 }
 
-//put entry(character + color) at position (x, y)
-void	terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
-{
-	const size_t	idx = y * VGA_WIDTH + x;
 
-	g_vga.vga_buffer[idx] = vga_entry(c, color);
-}

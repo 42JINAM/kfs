@@ -1,5 +1,5 @@
 #include "kernel.h"
-#include "terminal.h"
+#include "keyboard.h"
 
 unsigned char blocked[128] = {
     [KEY_ESC] = 1, [KEY_LCTRL] = 1, [KEY_LSHIFT] = 1, [KEY_RSHIFT] = 1,
@@ -73,7 +73,7 @@ void keyboard_handler()
 							g_vga.active->col = 0;
             		}
             	}
-            	terminal_putentryat(' ', g_vga.active->color, g_vga.active->col, g_vga.active->row);
+            	terminal_putchar(' ');
             	update_cursor(g_vga.active->col, g_vga.active->row);
             }
             else if (scancode == KEY_F1)

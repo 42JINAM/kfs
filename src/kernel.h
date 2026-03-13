@@ -1,7 +1,6 @@
 #ifndef KERNEL_H
 # define KERNEL_H 
 # include "terminal.h"
-# include "keyboard.h"
 # include "ascii/ascii.h"
 # include "utils/utils.h"
 

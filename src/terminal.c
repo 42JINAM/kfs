@@ -18,6 +18,14 @@ void	scroll_down() {
 	update_cursor(g_vga.active->col, g_vga.active->row);
 }
 
+//put entry(character + color) at position (x, y)
+void	terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
+{
+	const size_t	idx = y * VGA_WIDTH + x;
+
+	g_vga.vga_buffer[idx] = vga_entry(c, color);
+}
+
 void	terminal_putchar(char c)
 {
 	if (c == '\n') {
