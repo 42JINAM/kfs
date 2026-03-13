@@ -104,6 +104,27 @@ Files involved: `grub.cfg`, `kfs-1.iso`
 
 5. The kernel takes control, initializes the terminal, VGA, and other basic systems.
 
+## 5. Why we cannot use standard C libray functions?
+
+ this kernel uses the VGA text mode buffer as the output device.
+
+ 1. libc depends on our os and
+
+ 2. kernel is SERVICE PROVIDER not consumer.
+
+	- kernel role: IMPLEMENT printf for userspace. 
+
+	- USER role: CALL printf
+
+ 3. Kernel has only raw resauces
+
+	- No syscalls implemented yet
+
+	- Direct physical memory.
+
+	- No any (?) interface for userside (malloc, printf, fopen, ...)
+
+
 ## Useful link
 [I/O handling](https://wiki.osdev.org/Inline_Assembly/Examples)
 
