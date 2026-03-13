@@ -4,7 +4,6 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
-# include "string.h"
 
 /* VGA Hardware Text mode (80 * 25 color text mode) */
 # define VGA_WIDTH	80

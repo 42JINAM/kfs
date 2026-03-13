@@ -8,6 +8,7 @@
 # include <stdbool.h>
 # include <stdarg.h>
 # include <stdint.h>
+# include <stddef.h>
 
 //
 /* Check if the compiler thinks you are targeting the wrong operating system. */

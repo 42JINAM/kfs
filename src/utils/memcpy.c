@@ -1,4 +1,4 @@
-#include "kernel.h"
+#include "../kernel.h"
 
 void*   memcpy(void	*restrict dstptr, const void	*restrict srcptr, size_t size)
 {

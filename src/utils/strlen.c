@@ -1,4 +1,4 @@
-#include "string.h"
+#include "../kernel.h"
 
 size_t	strlen(const char	*str)
 {

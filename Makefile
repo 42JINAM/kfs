@@ -23,9 +23,12 @@ NAME    := kfs-1
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := strlen kernel terminal vga IO_handle keyboard memcpy memset init switch_terminal \
-		   print/printf \
-		   print/printf_format \
+CFILES  := kernel terminal vga IO_handle keyboard init switch_terminal \
+		   utils/memcpy \
+		   utils/memset \
+		   utils/strlen \
+		   utils/printf \
+		   utils/printf_format \
 		   ascii/ascii_1_bonus \
 		   ascii/ascii_2_bonus \
 		   ascii/ascii_3_bonus \
@@ -98,7 +101,7 @@ re:		clean build
 # ==============================
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
-	mkdir -p $(OBJDIR)/print
+	mkdir -p $(OBJDIR)/utils
 	mkdir -p $(OBJDIR)/ascii
 	@echo "$(CGREEN)[✓] $(OBJDIR) directory created$(CEND)"
 
