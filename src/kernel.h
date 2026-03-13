@@ -45,7 +45,6 @@ static inline uint8_t inb(uint16_t port)
     return ret;
 }
 
-void update_cursor(int x, int y);
 void keyboard_handler();
 
 #endif /* KERNEL_H */

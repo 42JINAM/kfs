@@ -111,3 +111,5 @@ Files involved: `grub.cfg`, `kfs-1.iso`
 [Receiving Bytes From Device/s](https://wiki.osdev.org/index.php?title=I8042_PS/2_Controller)
 
 [Keyboard](https://osdev.jsren.co.uk/input-output/keyboard)
+
+[Cursor](https://wiki.osdev.org/Text_Mode_Cursor)
