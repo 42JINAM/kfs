@@ -73,8 +73,7 @@ void keyboard_handler()
 							g_vga.active->col = 0;
             		}
             	}
-            	terminal_putchar(' ');
-            	update_cursor(g_vga.active->col, g_vga.active->row);
+            	terminal_write_char(' ');
             }
             else if (scancode == KEY_F1)
             {

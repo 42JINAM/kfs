@@ -49,19 +49,22 @@ typedef struct s_terminal_state
 	t_terminal	t2;
 }	t_terminal_state;
 
+// vga.c
+uint8_t		vga_entry_color(enum e_vga_color fg, enum e_vga_color bg);
+uint16_t	vga_entry(unsigned char uc, uint8_t color);
 
+// terminal.c
+void		terminal_write_char(char c);
+void		terminal_write_line(const char *data);
+
+// init.c
 void		set_terminal(t_terminal *t, uint16_t color);
 void		set_background(uint16_t* buffer, uint16_t entry);
 void		terminal_initialize(void);
 
-void		terminal_write_char(char c);
-void		terminal_write_line(const char *data);
 
 void		backup_terminal(t_terminal *t);
 void    	flush_terminal(t_terminal *t);
-
-uint8_t		vga_entry_color(enum e_vga_color fg, enum e_vga_color bg);
-uint16_t	vga_entry(unsigned char uc, uint8_t color);
 
 extern t_terminal_state	g_vga;
 #endif // !TERMINAL_H
