@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 # define UTILS_H
 
+# include "../terminal.h"
+
 # include <stdarg.h>
 # include <stdint.h>
 # include <stddef.h>

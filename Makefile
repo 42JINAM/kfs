@@ -23,7 +23,7 @@ NAME    := kfs-1
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := kernel terminal vga IO_handle keyboard init switch_tab \
+CFILES  := kernel terminal vga keyboard init switch_tab \
 		   utils/memcpy \
 		   utils/memset \
 		   utils/strlen \
