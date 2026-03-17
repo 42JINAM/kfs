@@ -29,6 +29,7 @@ CFILES  := kernel terminal vga keyboard init switch_tab gdt \
 		   utils/strlen \
 		   utils/printf \
 		   utils/printf_format \
+		   utils/hexdump \
 		   utils/test_printf \
 		   ascii/ascii_1_bonus \
 		   ascii/ascii_2_bonus \

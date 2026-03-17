@@ -20,4 +20,6 @@ void*   memcpy(void	*restrict dstptr, const void	*restrict srcptr, size_t size);
 
 size_t	strlen(const char	*str);
 
+void    hexdump(uint32_t addr, int limit);
+
 #endif
