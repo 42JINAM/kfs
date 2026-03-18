@@ -16,7 +16,7 @@ int	    ft_printf_xx(va_list ap);
 void    test_printf(void);
 
 void*   memset(void* bufptr, int value, size_t size);
-void*   memcpy(void	*restrict dstptr, const void	*restrict srcptr, size_t size);
+void*   memcpy(void* restrict	dstptr, const void	*restrict srcptr, size_t size);
 
 size_t	strlen(const char	*str);
 
