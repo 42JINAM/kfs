@@ -1,24 +1,23 @@
 # kfs2
 
 ## GDT (global descriptor table)
-A data structure used to define the different **memory areas**: 
+The Global Descriptor Table (GDT) is a binary data structure specific to the IA-32 and x86-64 architectures. It contains entries telling the **CPU** about **memory segments**. 
 
-the base address, the size and access privileges like execute and write.
+GDT is used to define memory segments and access permissions, like kernel vs user mode.
 
-These memory areas are called "**segments**".
-
-- **Kernel code**, used to store the executable binary code
+In our projct, GDT should contains entries below:
+- **Kernel code**
 - **Kernel data**
-- **Kernel stack**, used to store the call stack during kernel execution
-- **User code**, used to store the executable binary code for user programs
-- **User program data**
-- **User stack**, used to store the call stack during execution in userland
+- **Kernel stack**
+- **User code**
+- **User data**
+- **User stack**
 
 *process memory layout used by operating systems (OS view)*
 
 
 ## Segment descriptor = GDT entry structure
-A data structure used by the CPU (in x86 architecture) to describe a memory segment. It is 8 bytes (64 bits)
+A segment descriptor is a data structure used by the CPU (in x86 architecture) to describe a memory segment. It is 8 bytes (64 bits)
 
 [check image](https://en.wikipedia.org/wiki/Segment_descriptor)
 
@@ -39,10 +38,31 @@ A data structure used by the CPU (in x86 architecture) to describe a memory segm
 A 32-bit value containing the linear address where the segment begins.
 
 #### In kfs2
-- why all base is 0?
-because OS uses 'flat memory model'
+For all segment descriptor, we put `0x0`. WHY?
 
+Let's see how segmentation works:
+```
+linear address = segment_base + offset
+```
 
+If we set:
+```
+base = 0
+```
+
+Then:
+```
+linear address = offset
+```
+
+Instead of using segments:
+
+The OS uses paging (page tables) to:
+- isolate processes
+- protect memory
+- map virtual → physical memory
+
+Yes, all segments refer to the same space. We call it, **flat momery model**.
 
 ### Limit
 A 20-bit value defining the address of the last accessible data. 
@@ -52,7 +72,7 @@ The length is one more than the value stored here.
 How exactly this should be interpreted depends on the Granularity bit of the segment descriptor.
 
 #### In kfs2
-
+For all segment descriptor, we put max value `0xFFFFFFFF`.
 
 ### Acess
 ```
@@ -93,3 +113,38 @@ bit: 7  6   5  4
 | L   | Long mode flag           | 0 = not 64-bit, 1 = 64-bit code segment |
 
 #### In kfs2
+All descriptor:
+```
+G | DB | L | AVL
+1   1    0   0
+
+G = 1	Limit is scaled in 4 KiB blocks
+DB = 1	32-bit segment
+L = 0	Not 64-bit
+AVL = 0	Unused
+```
+
+### All descriptor
+With flat model:
+
+| Index | Segment Name     | Base | Limit        | Access | Flags | DPL |
+|-------|------------------|------|--------------|--------|-------|-----|
+| 0x00  | Null Descriptor  | 0x0  | 0x0          | 0x00   | 0x0   | -   |
+| 0x08  | Kernel Code      | 0x0  | 0xFFFFFFFF   | 0x9A   | 0xC   | 0   | 
+| 0x10  | Kernel Data      | 0x0  | 0xFFFFFFFF   | 0x92   | 0xC   | 0   | 
+| 0x18  | Kernel Stack     | 0x0  | 0xFFFFFFFF   | 0x92   | 0xC   | 0   | 
+| 0x20  | User Code        | 0x0  | 0xFFFFFFFF   | 0xFA   | 0xC   | 3   | 
+| 0x28  | User Data        | 0x0  | 0xFFFFFFFF   | 0xF2   | 0xC   | 3   | 
+| 0x30  | User Stack       | 0x0  | 0xFFFFFFFF   | 0xF2   | 0xC   | 3   | 
+
+
+If we use non-flat model, our segment descriptors would be like below:
+| Index | Segment Name     | Base        | Limit        | Access | Flags | DPL | Size |
+|-------|------------------|-------------|--------------|--------|-------|-----|------|
+| 0x00  | Null Descriptor  | 0x0         | 0x0          | 0x00   | 0x0   | -   | 4MiB | 
+| 0x08  | Kernel Code      | 0x00000000  | 0x003FFFFF   | 0x9A   | 0xC   | 0   | 4MiB | 
+| 0x10  | Kernel Data      | 0x00400000  | 0x003FFFFF   | 0x92   | 0xC   | 0   | 4MiB | 
+| 0x18  | Kernel Stack     | 0x00800000  | 0x001FFFFF   | 0x92   | 0xC   | 0   | 2MiB | 
+| 0x20  | User Code        | 0x01000000  | 0x007FFFFF   | 0xFA   | 0xC   | 3   | 8MiB | 
+| 0x28  | User Data        | 0x01800000  | 0x007FFFFF   | 0xF2   | 0xC   | 3   | 8MiB | 
+| 0x30  | User Stack       | 0x02000000  | 0x001FFFFF   | 0xF2   | 0xC   | 3   | 2MiB | 
