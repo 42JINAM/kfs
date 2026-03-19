@@ -23,7 +23,7 @@ NAME    := kfs-1
 KERNEL  := $(NAME).bin
 IMAGE   := $(NAME).iso
 
-CFILES  := kernel terminal vga keyboard init switch_tab \
+CFILES  := kernel terminal vga keyboard init switch_tab gdt_setting\
 		   utils/memcpy \
 		   utils/memset \
 		   utils/strlen \
@@ -87,6 +87,15 @@ build: $(IMAGE)
 run: $(IMAGE)
 	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU...$(CEND)"
 	qemu-system-i386 -cdrom $(IMAGE)
+
+debug: $(IMAGE)
+	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU...$(CEND)"
+	qemu-system-i386 -cdrom $(IMAGE)
+	-d cpu,int,exec,in_asm
+	-D qemu-debug.log
+	-no-reboot -no-shutdown
+
+
 
 # debug: $(IMAGE)
 # 	@echo "$(CYELLOW)[*] Running $(IMAGE) in QEMU in debug mode...$(CEND)"

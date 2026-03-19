@@ -5,6 +5,7 @@
 # include "keyboard.h"
 # include "ascii/ascii.h"
 # include "utils/utils.h"
+# include "gdt_setting.h"
 
 # include <limits.h>
 # include <stdbool.h>
