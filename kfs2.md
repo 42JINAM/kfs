@@ -93,12 +93,12 @@ bit: 7  6  5  4  3  2  1  0
 #### In kfs2
 ```
 P | DPL | S | E | DC | RW | A
-1   00    1   0   0    1   0   ← kernel code (0x9A)
-1   00    1   1   0    1   0   ← kernel data (0x92)
-1   11    1   0   0    1   0   ← user code (0xFA)
-1   11    1   1   0    1   0   ← user data (0xF2)
+1   00    1   1   0    1   0   ← kernel code (0x9A)
+1   00    1   0   0    1   0   ← kernel data (0x92)
+1   11    1   1   0    1   0   ← user code (0xFA)
+1   11    1   0   0    1   0   ← user data (0xF2)
 ```
-- E   → code vs data
+- E   → code(1) vs data(0)
 - DPL → kernel(0) vs user(3)
 
 ### Flags
